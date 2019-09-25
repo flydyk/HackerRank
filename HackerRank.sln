@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarsColonists", "MarsColoni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SplittingPixels", "SplittingPixels\SplittingPixels.csproj", "{1951FF78-89F9-464C-BC8D-10D5A3086DC4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwapNodes", "SwapNodes\SwapNodes.csproj", "{9ABAE665-DC07-40A5-A81D-2B97F33F340A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{1951FF78-89F9-464C-BC8D-10D5A3086DC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1951FF78-89F9-464C-BC8D-10D5A3086DC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1951FF78-89F9-464C-BC8D-10D5A3086DC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ABAE665-DC07-40A5-A81D-2B97F33F340A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ABAE665-DC07-40A5-A81D-2B97F33F340A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ABAE665-DC07-40A5-A81D-2B97F33F340A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ABAE665-DC07-40A5-A81D-2B97F33F340A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
