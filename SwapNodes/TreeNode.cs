@@ -5,26 +5,17 @@ using System.Diagnostics;
 namespace SwapNodes
 {
     [DebuggerDisplay("IsNull={IsNull}, Depth={Depth}, Value={Value}")]
-    public class TreeNode : TreeNodeBase<int>
+    public class TreeNode<T>
     {
-    }
+        public static TreeNode<T> Null = new TreeNode<T>(true);
 
-    public class Tree : TreeBase<int>
-    {
-    }
-
-    [DebuggerDisplay("IsNull={IsNull}, Depth={Depth}, Value={Value}")]
-    public class TreeNodeBase<T>
-    {
-        public static TreeNodeBase<T> Empty = new TreeNodeBase<T>(true);
-
-        public TreeNodeBase()
+        public TreeNode()
             : this(false)
         {
 
         }
 
-        private TreeNodeBase(bool isNull)
+        private TreeNode(bool isNull)
         {
             IsNull = isNull;
         }
@@ -33,27 +24,27 @@ namespace SwapNodes
 
         public int Depth { get; private set; } = 1;
 
-        public TreeBase<T> Tree { get; set; }
-        public TreeNodeBase<T> Parent { get; set; }
+        public Tree<T> Tree { get; set; }
+        public TreeNode<T> Parent { get; set; }
 
-        public TreeNodeBase<T> Left { get; private set; }
-        public TreeNodeBase<T> Right { get; private set; }
+        public TreeNode<T> Left { get; set; }
+        public TreeNode<T> Right { get; set; }
 
         public T Value { get; set; }
 
-        public TreeNodeBase<T> SetLeftNode(TreeNodeBase<T> node)
+        public TreeNode<T> SetLeftNode(TreeNode<T> node)
         {
             Left = node;
             return SetNode(Left);
         }
 
-        public TreeNodeBase<T> SetRightNode(TreeNodeBase<T> node)
+        public TreeNode<T> SetRightNode(TreeNode<T> node)
         {
             Right = node;
             return SetNode(Right);
         }
 
-        private TreeNodeBase<T> SetNode(TreeNodeBase<T> node)
+        private TreeNode<T> SetNode(TreeNode<T> node)
         {
             node.Tree = Tree;
             node.Parent = this;
@@ -65,43 +56,74 @@ namespace SwapNodes
         }
     }
 
-    public class TreeBase<T>
+    public class Tree<T>
     {
-        private TreeNodeBase<T> _root;
-        private readonly Dictionary<int, List<TreeNodeBase<T>>> _nodes = new Dictionary<int, List<TreeNodeBase<T>>>();
+        private TreeNode<T> _root;
+        private readonly Dictionary<int, List<TreeNode<T>>> _nodes = new Dictionary<int, List<TreeNode<T>>>();
 
-        public TreeNodeBase<T> Root
+        public TreeNode<T> Root
         {
             get => _root;
-            set
+            private set
             {
                 _root = value;
                 _root.Tree = this;
+                AddNode(_root);
             }
         }
 
-        public TreeNodeBase<T> GetNodeByIndex(int depth, int index)
+        public int Depth => _nodes.Count;
+
+        public List<TreeNode<T>> GetNodes(int depth)
         {
-            return _nodes[depth][index];
+            return _nodes[depth];
         }
 
         // for internal use only
-        internal void AddNode(TreeNodeBase<T> node)
+        internal void AddNode(TreeNode<T> node)
         {
             if (!_nodes.TryGetValue(node.Depth, out var nodes))
             {
-                nodes = new List<TreeNodeBase<T>>();
+                nodes = new List<TreeNode<T>>();
                 _nodes.Add(node.Depth, nodes);
             }
 
             nodes.Add(node);
         }
 
+        public Tree(TreeNode<T> root)
+        {
+            Root = root;
+        }
+
         private int _currentDepth;
         private int _nodeIndex;
         private int _currentIndex;
 
-        public TreeNodeBase<T> Next()
+        public List<T> Traverse()
+        {
+            var list = new List<T>();
+
+            Traverse(Root, list);
+
+            return list;
+        }
+
+        private void Traverse(TreeNode<T> node, List<T> list)
+        {
+            if (node.IsNull)
+            {
+                return;
+            }
+
+            Traverse(node.Left, list);
+
+            list.Add(node.Value);
+
+            Traverse(node.Right, list);
+        }
+
+        public TreeNode<T> Next()
         {
             while (true)
             {
@@ -118,7 +140,7 @@ namespace SwapNodes
                     return Root;
                 }
 
-                if (_currentDepth > _nodes.Count + 1)
+                if (_currentDepth > Depth)
                 {
                     return null;
                 }
